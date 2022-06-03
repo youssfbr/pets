@@ -24,7 +24,7 @@ export const ItemList = styled('li')`
 
 export const Pic = styled('img')`
   width: 100%;
-  border-radius: 4px;
+  border-radius: 6px;
 `;
 
 export const Informations = styled('div')`
