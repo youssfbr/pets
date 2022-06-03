@@ -1,0 +1,2 @@
+INSERT INTO pet (name, description, pic) VALUES ('Bidu', 'História de superação', 'http://www.exemplo.com.br/foto.png');
+INSERT INTO pet (name, description, pic) VALUES ('Bidu2', 'História de superação', 'http://www.exemplo.com.br/foto2.png');
