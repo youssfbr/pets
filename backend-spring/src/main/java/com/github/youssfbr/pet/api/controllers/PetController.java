@@ -1,6 +1,6 @@
-package com.github.youssfbr.pet.controllers;
+package com.github.youssfbr.pet.api.controllers;
 
-import com.github.youssfbr.pet.entities.Pet;
+import com.github.youssfbr.pet.api.dtos.PetResponseDTO;
 import com.github.youssfbr.pet.services.interfaces.IPetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class PetController {
     private final IPetService petService;
 
     @GetMapping
-    public List<Pet> findAll() {
+    public List<PetResponseDTO> findAll() {
         return petService.findAll();
     }
 
