@@ -1,6 +1,7 @@
 package com.github.youssfbr.pet.services;
 
 import com.github.youssfbr.pet.api.dtos.AdoptionRequestDTO;
+import com.github.youssfbr.pet.api.dtos.MessageResponseDTO;
 import com.github.youssfbr.pet.api.mappers.AdoptionMapper;
 import com.github.youssfbr.pet.entities.Adoption;
 import com.github.youssfbr.pet.repositories.IAdoptionRepository;
@@ -10,6 +11,7 @@ import com.github.youssfbr.pet.services.exceptions.PetNotFoundException;
 import com.github.youssfbr.pet.services.interfaces.IAdoptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -20,12 +22,15 @@ public class AdoptionService implements IAdoptionService {
     private final AdoptionMapper adoptionMapper;
 
     @Override
-    public void save(AdoptionRequestDTO dto) {
+    @Transactional
+    public MessageResponseDTO save(AdoptionRequestDTO adoptionDTO) {
         try {
-            if (dto.getPetId() == null) throw new PetIsNullException();
+            if (adoptionDTO.getPetId() == null) throw new PetIsNullException();
 
-            Adoption adoptionToSave = adoptionMapper.toModel(dto);
-            Adoption adoptionSaved = adoptionRepository.save(adoptionToSave);
+            Adoption adoptionToSave = adoptionMapper.toModel(adoptionDTO);
+            Adoption savedAdoption = adoptionRepository.save(adoptionToSave);
+
+            return createMessageResponse("Adoção criada com ID ", savedAdoption.getId());
         }
         catch (PetNotFoundException e) {
             throw e;
@@ -33,6 +38,13 @@ public class AdoptionService implements IAdoptionService {
         catch (Exception e) {
             throw new InternalServerError();
         }
+    }
+
+    private MessageResponseDTO createMessageResponse(final String message, final Long id) {
+        return MessageResponseDTO
+                .builder()
+                .message(message + id)
+                .build();
     }
 
 }

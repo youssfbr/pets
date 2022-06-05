@@ -1,9 +1,10 @@
 package com.github.youssfbr.pet.services.interfaces;
 
 import com.github.youssfbr.pet.api.dtos.AdoptionRequestDTO;
+import com.github.youssfbr.pet.api.dtos.MessageResponseDTO;
 
 public interface IAdoptionService {
 
-    void save(AdoptionRequestDTO dto);
+    MessageResponseDTO save(AdoptionRequestDTO dto);
 
 }
