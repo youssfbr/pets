@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Pet } from '../../@types/Pet';
 
 export function useIndex() {
   const [petsList, setPetsList] = useState(
@@ -16,8 +17,26 @@ export function useIndex() {
         pic: 'https://media.gazetadopovo.com.br/viver-bem/2018/11/dog3-600x459-0e01be20.jpg'
       }
     ]
-  )
+  ),
+    [petSelected, setPetSelected] = useState<Pet | null>(null),
+    [email, setEmail] = useState(''),
+    [price, setPrice] = useState(''),
+    [message, setMessage] = useState('');
+
+  function adoption() {
+
+  }  
+
   return {
-    petsList
+    petsList,
+    petSelected, 
+    setPetSelected,
+    email, 
+    setEmail,
+    price, 
+    setPrice,
+    message, 
+    setMessage,
+    adoption
   };
 }
