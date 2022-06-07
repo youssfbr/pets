@@ -1,31 +1,55 @@
-import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
 import { Pet } from '../../@types/Pet';
+import { ApiService } from '../../services/ApiService';
 
 export function useIndex() {
-  const [petsList, setPetsList] = useState(
-    [
-      {
-        id: 1,
-        name: 'Bidu',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto asperiores animi, accusantium rerum quo debitis officia tempore? Tempora sint sequi dolore nam, molestiae et voluptate, voluptatum modi, recusandae illum temporibus.',
-        pic: 'https://image.cachorrogato.com.br/textimages/cachorrinho-ideal'
-      },
-      {
-        id: 2,
-        name: 'Shandy',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto asperiores animi, accusantium rerum quo debitis officia tempore? Tempora sint sequi dolore nam, molestiae et voluptate, voluptatum modi, recusandae illum temporibus.',
-        pic: 'https://media.gazetadopovo.com.br/viver-bem/2018/11/dog3-600x459-0e01be20.jpg'
-      }
-    ]
-  ),
+  const [petsList, setPetsList] = useState<Pet[]>([]),
     [petSelected, setPetSelected] = useState<Pet | null>(null),
     [email, setEmail] = useState(''),
     [price, setPrice] = useState(''),
     [message, setMessage] = useState('');
 
-  function adoption() {
+  useEffect(() => {
+    ApiService.get('/pets')
+    .then((response) => {
+      setPetsList(response.data);
+    })
+  }, [])
 
+  useEffect(() => {
+    if (petSelected === null) formClear();    
+  }, [petSelected]);
+
+  function adoption() {
+    if (petSelected !== null) {
+      if (adoptionValidate()) {
+        ApiService.post('/adoptions', {
+          pet_id: petSelected.id,
+          email,
+          price
+        })
+        .then(() => {
+          setPetSelected(null);
+          setMessage('Parabéns! Pet adotado.');          
+        })
+        .catch((error: AxiosError) => {
+          setMessage(error.response?.data.message);
+        })
+      } else {
+        setMessage('Preencha todos os campos corretamente.')
+      }
+    }
   }  
+
+  function adoptionValidate() {
+    return email.length > 0 && price.length > 0;
+  }
+
+  function formClear() {
+    setEmail('');
+    setPrice('');
+  }
 
   return {
     petsList,

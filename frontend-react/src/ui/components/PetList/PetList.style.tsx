@@ -8,7 +8,7 @@ export const ListStyled = styled('ul')`
   padding: 16px;
 `;
 
-export const ItemList = styled('li')`
+export const ListItem = styled('li')`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;

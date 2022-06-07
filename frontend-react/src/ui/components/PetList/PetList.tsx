@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { Pet } from "../../../data/@types/Pet";
 import { 
   ListStyled,
-  ItemList,
+  ListItem,
   Pic,
   Informations,
   Name,
@@ -22,7 +22,7 @@ export default function PetList(props: ListProps) {
     <ListStyled>
       {props.pets.map(pet => (
         <>
-          <ItemList key={pet.id}>
+          <ListItem key={pet.id}>
             <Pic src={pet.pic} alt={pet.name} />
             <Informations>
               <Name>{pet.name}</Name>
@@ -35,7 +35,7 @@ export default function PetList(props: ListProps) {
                 Adotar {pet.name}
               </Button>
             </Informations>
-          </ItemList>  
+          </ListItem>  
         </>
       ))}
     </ListStyled>
