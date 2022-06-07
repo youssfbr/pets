@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 public class PetMapper {
 
     public PetResponseDTO toDTO(Pet pet) {
-        PetResponseDTO petResponseDTO = new PetResponseDTO();
-        petResponseDTO.setId(pet.getId());
-        petResponseDTO.setName(pet.getName());
-        petResponseDTO.setDescription(pet.getDescription());
-        petResponseDTO.setPic(pet.getPic());
-        return petResponseDTO;
+
+        return PetResponseDTO.builder()
+                .id(pet.getId())
+                .name(pet.getName())
+                .description(pet.getDescription())
+                .pic(pet.getPic())
+                .build();
     }
 
 }

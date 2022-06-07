@@ -18,8 +18,8 @@ public class AdoptionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO createAdoption(@RequestBody AdoptionRequestDTO dto) {
-         return adoptionService.save(dto);
+    public MessageResponseDTO createAdoption(@RequestBody AdoptionRequestDTO adoptionRequestDTO) {
+         return adoptionService.save(adoptionRequestDTO);
     }
 
 }

@@ -1,18 +1,18 @@
 package com.github.youssfbr.pet.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Adoption {
 
     @Id
@@ -26,7 +26,19 @@ public class Adoption {
     @Column(nullable = false)
     private String email;
 
-    @ManyToOne(optional = true)
+    @ManyToOne()
     private Pet pet;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Adoption adoption = (Adoption) o;
+        return id != null && Objects.equals(id, adoption.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

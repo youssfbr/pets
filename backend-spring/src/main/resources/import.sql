@@ -1,2 +1,2 @@
-INSERT INTO pet (name, description, pic) VALUES ('Bidu', 'História de superação', 'http://www.exemplo.com.br/foto.png');
-INSERT INTO pet (name, description, pic) VALUES ('Bidu2', 'História de superação', 'http://www.exemplo.com.br/foto2.png');
+INSERT INTO pet (name, description, pic) VALUES ('Bidu', 'História de superação', 'https://image.cachorrogato.com.br/textimages/cachorrinho-ideal');
+INSERT INTO pet (name, description, pic) VALUES ('Bidu2', 'História de superação', 'https://media.gazetadopovo.com.br/viver-bem/2018/11/dog3-600x459-0e01be20.jpg');

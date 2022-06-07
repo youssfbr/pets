@@ -5,6 +5,6 @@ import com.github.youssfbr.pet.api.dtos.MessageResponseDTO;
 
 public interface IAdoptionService {
 
-    MessageResponseDTO save(AdoptionRequestDTO dto);
+    MessageResponseDTO save(AdoptionRequestDTO adoptionRequestDTO);
 
 }

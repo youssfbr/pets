@@ -23,16 +23,16 @@ public class AdoptionService implements IAdoptionService {
 
     @Override
     @Transactional
-    public MessageResponseDTO save(AdoptionRequestDTO adoptionDTO) {
+    public MessageResponseDTO save(AdoptionRequestDTO adoptionRequestDTO) {
         try {
-            if (adoptionDTO.getPetId() == null) throw new PetIsNullException();
+            if (adoptionRequestDTO.getPetId() == null) throw new PetIsNullException();
 
-            Adoption adoptionToSave = adoptionMapper.toModel(adoptionDTO);
+            Adoption adoptionToSave = adoptionMapper.toModel(adoptionRequestDTO);
             Adoption savedAdoption = adoptionRepository.save(adoptionToSave);
 
             return createMessageResponse("Adoção criada com ID ", savedAdoption.getId());
         }
-        catch (PetNotFoundException e) {
+        catch (PetIsNullException | PetNotFoundException e) {
             throw e;
         }
         catch (Exception e) {
