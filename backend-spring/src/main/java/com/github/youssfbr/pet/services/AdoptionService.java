@@ -6,8 +6,6 @@ import com.github.youssfbr.pet.api.mappers.AdoptionMapper;
 import com.github.youssfbr.pet.entities.Adoption;
 import com.github.youssfbr.pet.repositories.IAdoptionRepository;
 import com.github.youssfbr.pet.services.exceptions.InternalServerError;
-import com.github.youssfbr.pet.services.exceptions.PetIsNullException;
-import com.github.youssfbr.pet.services.exceptions.PetNotFoundException;
 import com.github.youssfbr.pet.services.interfaces.IAdoptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,15 +23,10 @@ public class AdoptionService implements IAdoptionService {
     @Transactional
     public MessageResponseDTO save(AdoptionRequestDTO adoptionRequestDTO) {
         try {
-            if (adoptionRequestDTO.getPetId() == null) throw new PetIsNullException();
-
             Adoption adoptionToSave = adoptionMapper.toModel(adoptionRequestDTO);
             Adoption savedAdoption = adoptionRepository.save(adoptionToSave);
 
             return createMessageResponse("Adoção criada com ID ", savedAdoption.getId());
-        }
-        catch (PetIsNullException | PetNotFoundException e) {
-            throw e;
         }
         catch (Exception e) {
             throw new InternalServerError();

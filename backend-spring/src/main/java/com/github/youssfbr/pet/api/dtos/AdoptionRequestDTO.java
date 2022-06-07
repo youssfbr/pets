@@ -2,6 +2,7 @@ package com.github.youssfbr.pet.api.dtos;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.github.youssfbr.pet.api.controllers.validators.PetExistsById;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -23,6 +24,7 @@ public class AdoptionRequestDTO {
 
     @NotNull
     @Positive
+    @PetExistsById
     private Long petId;
 
 }

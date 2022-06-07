@@ -1,8 +1,7 @@
 package com.github.youssfbr.pet.api.controllers.handler;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.github.youssfbr.pet.services.exceptions.InternalServerError;
-import com.github.youssfbr.pet.services.exceptions.PetIsNullException;
-import com.github.youssfbr.pet.services.exceptions.PetNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,8 @@ import java.util.stream.Stream;
 @ControllerAdvice
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private final SnakeCaseStrategy snakeCaseStrategy = new SnakeCaseStrategy();
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException exception,
@@ -39,22 +40,6 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(body, status);
-    }
-
-    @ExceptionHandler(PetNotFoundException.class)
-    public ResponseEntity<ApiErros> personNotFound(PetNotFoundException e) {
-
-        ApiErros message = getError(HttpStatus.NOT_FOUND, e.getMessage());
-
-        return ResponseEntity.status(message.getStatus()).body(message);
-    }
-
-    @ExceptionHandler(PetIsNullException.class)
-    public ResponseEntity<ApiErros> personNotFound(PetIsNullException e) {
-
-        ApiErros message = getError(HttpStatus.BAD_REQUEST, e.getMessage());
-
-        return ResponseEntity.status(message.getStatus()).body(message);
     }
 
     @ExceptionHandler(InternalServerError.class)
@@ -76,7 +61,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     private Map<String, List<String>> convertFieldErros(List<FieldError> fieldErrors) {
         var errors = new HashMap<String, List<String>>();
         fieldErrors.stream().forEach(fieldError -> {
-            var field = fieldError.getField();
+            var field = snakeCaseStrategy.translate(fieldError.getField());
             if (errors.containsKey(field)) {
                 errors.get(field).add(fieldError.getDefaultMessage());
             } else {
