@@ -16,6 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @ControllerAdvice
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
@@ -78,9 +80,10 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
             if (errors.containsKey(field)) {
                 errors.get(field).add(fieldError.getDefaultMessage());
             } else {
-                var errorList = new ArrayList<String>();
-                errorList.add(fieldError.getDefaultMessage());
-                errors.put(field, errorList);
+                errors.put(
+                        field,
+                        Stream.of(fieldError.getDefaultMessage()).collect(Collectors.toList())
+                );
             }
         });
         return errors;
