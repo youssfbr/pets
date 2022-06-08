@@ -1,14 +1,12 @@
 package com.github.youssfbr.pet.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -19,7 +17,7 @@ public class Pet {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String name;
 
     @Column(nullable = false)

@@ -1,6 +1,7 @@
 package com.github.youssfbr.pet.services;
 
 import com.github.youssfbr.pet.api.dtos.AdoptionRequestDTO;
+import com.github.youssfbr.pet.api.dtos.AdoptionResponseDTO;
 import com.github.youssfbr.pet.api.dtos.MessageResponseDTO;
 import com.github.youssfbr.pet.api.mappers.AdoptionMapper;
 import com.github.youssfbr.pet.entities.Adoption;
@@ -11,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +22,15 @@ public class AdoptionService implements IAdoptionService {
 
     private final IAdoptionRepository adoptionRepository;
     private final AdoptionMapper adoptionMapper;
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdoptionResponseDTO> findAll() {
+        return adoptionRepository.findAll()
+                .stream()
+                .map(adoptionMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 
     @Override
     @Transactional

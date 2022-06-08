@@ -1,17 +1,19 @@
 package com.github.youssfbr.pet.api.controllers;
 
+import com.github.youssfbr.pet.api.dtos.MessageResponseDTO;
+import com.github.youssfbr.pet.api.dtos.PetRequestDTO;
 import com.github.youssfbr.pet.api.dtos.PetResponseDTO;
 import com.github.youssfbr.pet.services.interfaces.IPetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/pets")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/pets")
 public class PetController {
 
     private final IPetService petService;
@@ -19,6 +21,12 @@ public class PetController {
     @GetMapping
     public List<PetResponseDTO> findAll() {
         return petService.findAll();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponseDTO createPet(@RequestBody @Valid PetRequestDTO petRequestDTO) {
+        return petService.createPet(petRequestDTO);
     }
 
 }
